@@ -1,7 +1,12 @@
-import HelloWorld from "./HelloWorld";
-import Button from "react-bootstrap/Button";
-import { Container } from "react-bootstrap";
+// React
 import { useState } from "react";
+
+// Bootstrap
+import { Container } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+
+// Custom Components
+import HelloWorld from "./HelloWorld";
 import ProductListItem from "./ProductListItem";
 import GlobalCountButton from "./GlobalCountButton";
 
@@ -56,24 +61,23 @@ export default function App() {
 
 	return (
 		<>
-			<Container className="primary-container mb-4">
+			<div className="primary-container mb-4">
 				<h1>Welcome to my app</h1>
 				<HelloWorld />
 				<Task title="Zakery">Some Text</Task>
 				<MyButton />
-			</Container>
-			<Container className="primary-container mb-4">
+			</div>
+			<div className="primary-container mb-4">
 				{products.map((product) => {
 					return (
 						<ProductListItem
 							obj={product}
-							key={product.id}>
-							{product.title}
-						</ProductListItem>
+							key={product.id}
+						/>
 					);
 				})}
-			</Container>
-			<Container className="primary-container mb-4">
+			</div>
+			<div className="primary-container mb-4">
 				<h2>Counter Test</h2>
 				<CounterButton>Inner Text</CounterButton>
 				<GlobalCountButton
@@ -84,8 +88,8 @@ export default function App() {
 					globalCount={globalCount}
 					setGlobalCount={setGlobalCount}
 				/>
-			</Container>
-			<Container>
+			</div>
+			<div>
 				<input
 					onChange={(e) => {
 						setName(e.target.value);
@@ -97,7 +101,7 @@ export default function App() {
 					value={name}
 					id="name"></input>
 				<Button>This is a Bootstrap React Button.</Button>
-			</Container>
+			</div>
 		</>
 	);
 }

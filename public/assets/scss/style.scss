@@ -1,0 +1,142 @@
+// Global
+body {
+	font-family: "Roboto", sans-serif;
+	font-size: 16px;
+	line-height: 1.5em;
+	color: #333;
+	background: #fff;
+
+	// Headers
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: "Roboto", sans-serif;
+	}
+}
+
+// Nav
+nav#main_app_nav {
+	box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+	margin: 0 0 2rem;
+
+	.innerWrapper {
+		max-width: 1200px;
+		padding: 0 30px;
+		margin: 0 auto;
+
+		@media (max-width: 768px) {
+			padding: 0 15px;
+		}
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+
+		li {
+			display: inline-block;
+
+			a,
+			a:visited {
+				display: block;
+				padding: 10px 15px;
+				text-decoration: none;
+				color: #333;
+			}
+			a:hover {
+				background: #efefef;
+			}
+		}
+	}
+}
+
+// App
+#main_app_pages_container {
+	.innerWrapper {
+		max-width: 1200px;
+		padding: 0 30px;
+		margin: 0 auto;
+
+		@media (max-width: 768px) {
+			padding: 0 15px;
+		}
+	}
+}
+
+// Page: TicTacToe
+.TicTacToe--Board {
+	margin: 0.5rem 0;
+
+	.TicTacToe--InnerBoardWrapper {
+		display: flex;
+		max-width: 300px;
+		flex-flow: row wrap;
+		border: solid 1px #333;
+
+		.TicTacToe--Square {
+			border: solid 1px #333;
+			width: 33%;
+			width: 33.3333%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			aspect-ratio: 1;
+			font-size: 3ch;
+			cursor: pointer;
+			color: #fff;
+
+			&[value="X"] {
+				background: #353463;
+			}
+			&[value="Y"] {
+				background: #a91f2e;
+			}
+		} // end .TicTacToe--Square
+	} // end .TicTacToe--InnerBoardWrapper
+} // end .TicTacToe--Board
+
+// Move History
+ul.TicTacToe--movesHistory {
+	position: relative;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+
+	li {
+		color: #fff;
+		padding: 0.25rem 1rem;
+		border-radius: 0.25rem;
+		margin: 0.25rem;
+		display: inline-block;
+	}
+	li.X {
+		background: #353463;
+	}
+	li.Y {
+		background: #a91f2e;
+	}
+} // end ul.TicTacToe--movesHistory
+
+// Footer
+footer#main_app_footer {
+	background: #efefef;
+	font-size: 0.8rem;
+	padding: 5px;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	p {
+		padding: 0;
+		margin: 0;
+		display: block;
+		width: 100%;
+		text-align: center;
+	}
+}

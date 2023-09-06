@@ -4,7 +4,7 @@ export default function ProductListItem({ children, obj }) {
 		<li
 			style={{}}
 			id={`product_id_${obj.id}`}>
-			<b>Product Name: </b> {children}
+			<b>Product Name: </b> {obj.title}
 			{children ? (
 				<span
 					className=""
