@@ -80,10 +80,10 @@ nav#main_app_nav ul li a:hover {
   cursor: pointer;
   color: #fff;
 }
-.TicTacToe--Board .TicTacToe--InnerBoardWrapper .TicTacToe--Square[value=X] {
+.TicTacToe--Board .TicTacToe--InnerBoardWrapper .TicTacToe--Square[data-val=X] {
   background: #353463;
 }
-.TicTacToe--Board .TicTacToe--InnerBoardWrapper .TicTacToe--Square[value=Y] {
+.TicTacToe--Board .TicTacToe--InnerBoardWrapper .TicTacToe--Square[data-val=Y] {
   background: #a91f2e;
 }
 

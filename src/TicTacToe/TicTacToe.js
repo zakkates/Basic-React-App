@@ -1,19 +1,32 @@
-import Board, { CurrentPlayer, GameStatus, MovesHistory } from "./Board.js";
+import Board from "./Board.js";
+import DisplayCurrentPlayer from "./DisplayCurrentPlayer.js";
+import DisplayGameStatus from "./DisplayGameStatus.js";
+import DisplayMovesHistory from "./DisplayMovesHistory.js";
 import { useState } from "react";
 import { useEffect } from "react";
 
 export default function TicTacToe() {
-	const [player, setPlayer] = useState("X");
+	const [player, setPlayer] = useState(`X`);
 	const [moves, setMoves] = useState([]);
 	const [gameOver, setGameOver] = useState(false);
 	const [gameStatus, setGameStatus] = useState(`Game in progress...`);
+	const [board, setBoard] = useState(new Array(9).fill(``));
+
+	const resetBoard = () => {
+		setBoard(new Array(9).fill(``));
+		setPlayer(`X`);
+		setMoves([]);
+		setGameOver(false);
+		setGameStatus(`Game in progress...`);
+		console.log(`reset board button clicked`);
+	};
 
 	// On Cell Click
 	// Custom setPlayer Function
 	const setPlayerExtended = (cell) => {
-		console.log(
-			`Cell: ${cell} | Player: ${player} || GAME STATUS: ${gameOver}`,
-		);
+		const newBoard = [...board];
+		newBoard[cell] = player;
+		setBoard(newBoard);
 
 		// Add to the move list
 		setMoves([
@@ -31,79 +44,68 @@ export default function TicTacToe() {
 
 	// Check if TicTacToe Has Been Won or if there's Stalemate
 	useEffect(() => {
-		console.log(`movesLength: ${moves.length}`);
-		const TicTacToeBoard = document.getElementById("TicTacToeBoard");
-		const TicTacToeSquares = TicTacToeBoard.querySelectorAll(
-			".TicTacToe--Square",
-		);
+		if (moves.length !== 0) {
+			const lastMove = moves[moves.length - 1];
+		}
+		const board = document.getElementById("TicTacToeBoard");
+		const squares = board.querySelectorAll(".TicTacToe--Square");
+		const values = [];
+		squares.forEach((cell) => {
+			values.push(cell.dataset.val);
+		});
 
-		console.log(
-			`moves has been updated. Checking if Tic Tac Toe has been won...`,
-		);
-
-		// TODO: Logic needs to be fixed. Isn't correct.
 		const visited = new Set();
-		const dfs = (pos, letter, count = 0) => {
+		const checkTicTacToeGameStatus = (pos, letter) => {
 			// Check if this cell has been visited already
 			if (visited.has(pos)) return;
 			visited.add(pos);
 
-			console.log(
-				`dfs(${pos}, ${letter}, ${count}) | Current Cell Value: ${TicTacToeSquares[pos].dataset.val}`,
-			);
-			// Return if not the same letter as the previous cell
-			if (letter != TicTacToeSquares[pos].dataset.val) return;
-
-			// Set Count if letter matches the previous letter
-			if (letter == TicTacToeSquares[pos].dataset.val) count++;
-
-			// Have we found 3 in a row?
-			if (count == 3) {
-				setGameStatus(`${letter} has won the game! `);
-				setGameOver(true);
-			}
-
-			// Up
-			const up = pos - 3;
-			if (up >= 0) dfs(up, letter, count);
-
 			// Down
-			const down = pos + 3;
-			if (down < 9) dfs(down, letter, count);
-
-			// Left
-			const left = (pos % 3) - 1;
-			if (left > 0) dfs(left, letter, count);
+			let down = pos + 3;
+			let downCount = 1;
+			while (down < 9) {
+				if (squares[down]?.dataset.val == letter) downCount++;
+				down += 3;
+			}
+			if (downCount == 3) return true;
 
 			// Right
-			const right = (pos % 3) + 1;
-			if (right <= 2) dfs(right, letter, count);
+			let right = pos + 1;
+			let rightCount = 1;
+			while (right % 3 != 0) {
+				if (squares[right]?.dataset.val == letter) rightCount++;
+				right += 1;
+			}
+			if (rightCount == 3) return true;
 
 			// Diagonal Tests
 			if (pos == 0) {
 				if (
-					TicTacToeSquares[4].dataset.val == letter &&
-					TicTacToeSquares[8].dataset.val == letter
+					squares[4].dataset.val == letter &&
+					squares[8].dataset.val == letter
 				) {
-					setGameStatus(`${letter} has won the game! `);
-					setGameOver(true);
+					return true;
 				}
 			}
 			if (pos == 2) {
 				if (
-					TicTacToeSquares[4].dataset.val == letter &&
-					TicTacToeSquares[6].dataset.val == letter
+					squares[4].dataset.val == letter &&
+					squares[6].dataset.val == letter
 				) {
-					setGameStatus(`${letter} has won the game! `);
-					setGameOver(true);
+					return true;
 				}
 			}
-		};
+		}; // checkTicTacToeGameStatus()
 
-		for (let i = 0; i < 9; i++) {
-			const cellValue = TicTacToeSquares[i].dataset.val;
+		for (let i = 0; i < 7; i++) {
+			if (i == 4 || i == 5) continue;
+			const cellValue = squares[i].dataset.val;
 			if (cellValue == ``) continue;
-			if (dfs(i, cellValue)) return true;
+			// console.log(`checkTicTacToeGameStatus(${i}, ${cellValue})`);
+			if (checkTicTacToeGameStatus(i, cellValue)) {
+				setGameStatus(`${cellValue} has won the game! `);
+				setGameOver(true);
+			}
 		}
 		// End Game
 		if (moves.length == 9) {
@@ -116,15 +118,21 @@ export default function TicTacToe() {
 		<>
 			<h1>TicTacToe w/ React</h1>
 			<section className="TicTacToeGame">
-				<CurrentPlayer currentPlayer={player} />
+				<DisplayCurrentPlayer currentPlayer={player} />
 				<Board
 					player={player}
 					setPlayer={setPlayerExtended}
 					gameOver={gameOver}
+					board={board}
 				/>
-				<GameStatus gameStatus={gameStatus} />
-				<MovesHistory moves={moves} />
+				<DisplayGameStatus gameStatus={gameStatus} />
+				<DisplayMovesHistory moves={moves} />
+				<ResetButton resetBoard={resetBoard} />
 			</section>
 		</>
 	);
+}
+
+function ResetButton({ resetBoard }) {
+	return <button onClick={resetBoard}>Reset</button>;
 }

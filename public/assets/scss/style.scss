@@ -90,10 +90,10 @@ nav#main_app_nav {
 			cursor: pointer;
 			color: #fff;
 
-			&[value="X"] {
+			&[data-val="X"] {
 				background: #353463;
 			}
-			&[value="Y"] {
+			&[data-val="Y"] {
 				background: #a91f2e;
 			}
 		} // end .TicTacToe--Square
